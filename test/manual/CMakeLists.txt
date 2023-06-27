@@ -12,4 +12,4 @@ target_link_libraries(${MANUALTEST}
                       ${PROJECT_NAME}
                       )
 
-target_link_libraries(${MANUALTEST} PRIVATE PkgConfig::glib)
+target_link_libraries(${MANUALTEST} PRIVATE ${PROJECT_NAME} PkgConfig::glib)

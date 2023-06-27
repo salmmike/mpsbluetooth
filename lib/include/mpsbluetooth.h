@@ -26,15 +26,13 @@ struct bt_adapter_device
     char adapter[MPS_INTERFACE_MAX_LEN]; /* Name of adapter device, e.g. hci0. */
     char address[MPS_BT_ADDRESS_MAX_LEN]; /* Address of adapter device, e.g. 12:34:56:78:9A:BC. */
     char name[MPS_BT_NAME_MAX_LEN]; /* Name of adapter, e.g. abc. */
+    int discovering; /* Is the adapter in discovering mode. */
 };
 
-/**
- * @brief Start the device discovery.
- * @return Non-zero value on error.
- * @param device the name of the used bluetooth device, e.g. hci0
- */
-int
-start_discovery(const char* device);
+GDBusConnection*
+get_connection();
+
+int is_discovering(const char *device, GDBusConnection *connection);
 
 /**
  * @brief Start the device discovery.
@@ -42,7 +40,15 @@ start_discovery(const char* device);
  * @param device the name of the used bluetooth device, e.g. hci0
  */
 int
-stop_discovery(const char* device);
+start_discovery(const char *device, GDBusConnection *connection);
+
+/**
+ * @brief Start the device discovery.
+ * @return Non-zero value on error.
+ * @param device the name of the used bluetooth device, e.g. hci0
+ */
+int
+stop_discovery(const char *device, GDBusConnection *connection);
 
 /**
  * @brief List available bluetooth adapter devices. Caller must free the struct if any
@@ -50,7 +56,6 @@ stop_discovery(const char* device);
  * @return Count of found adapters. Negative value on failure.
  * @param adapters list of structs holding the adapter names.
  */
-int
-list_adapters(struct bt_adapter_device** adapters);
+int list_adapters(struct bt_adapter_device **adapters, GDBusConnection *connection);
 
 #endif
